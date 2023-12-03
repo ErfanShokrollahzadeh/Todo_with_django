@@ -6,4 +6,7 @@ urlpatterns = [
     path('<int:todo_id>', views.todo_detail_view, name='todo_detail_view'),
     path('cbv/', views.TodosListApiView.as_view(), name='all_todos'),
     path('cbv/<int:todo_id>', views.TodosDetailsApiView.as_view(), name='all_todos'),
+    path('mixins/', views.TodosListMixinApiView.as_view(), name='all_todos'),
+    path('mixins/<pk>', views.TodosDetailsMixinApiView.as_view(), name='all_todos'),
+
 ]
