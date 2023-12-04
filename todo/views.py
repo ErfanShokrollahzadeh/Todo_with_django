@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import generics, mixins
+from rest_framework import viewsets
 
 
 # region function base view
@@ -135,4 +136,12 @@ class TodosListGenericApiView(generics.ListCreateAPIView):
 class TodosDetailsGenericApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializaer
+# endregion
+
+
+# region viewsets
+class TodosViewSetApiView(viewsets.ModelViewSet):
+    queryset = Todo.objects.order_by('priority').all()
+    serializer_class = TodoSerializaer
+
 # endregion
