@@ -5,7 +5,7 @@ user = get_user_model()
 
 class Todo(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     priority = models.IntegerField(default=1)
     is_done = models.BooleanField(default=False)
     user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='todos')
