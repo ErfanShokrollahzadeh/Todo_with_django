@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework import generics, mixins
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 
 User = get_user_model()
 
@@ -99,6 +100,8 @@ class TodosDetailsApiView(APIView):
         todo = self.get_object(todo_id)
         todo.delete()
         return Response(None, status.HTTP_204_NO_CONTENT)
+
+
 # endregion
 
 
@@ -114,8 +117,8 @@ class TodosListMixinApiView(mixins.ListModelMixin, mixins.CreateModelMixin, gene
         return self.create(request)
 
 
-
-class TodosDetailsMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+class TodosDetailsMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                               generics.GenericAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializaer
 
@@ -128,38 +131,49 @@ class TodosDetailsMixinApiView(mixins.RetrieveModelMixin, mixins.UpdateModelMixi
     def delete(self, request: Request, pk):
         return self.destroy(request)
 
+
 # endregion
 
 
 # region generic
+class TodosGenericApiViewPagination(PageNumberPagination):
+    page_size = 1
+    # page_size_query_param = 'page_size'
+    # max_page_size = 10
+
+
 class TodosListGenericApiView(generics.ListCreateAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializaer
+    pagination_class = TodosGenericApiViewPagination
+
 
 class TodosDetailsGenericApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializaer
 
+
 class TodosListGenericApiView(generics.ListCreateAPIView):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializaer
 
-# endregion
 
+# endregion
 
 
 # region viewsets
 class TodosViewSetApiView(viewsets.ModelViewSet):
     queryset = Todo.objects.order_by('priority').all()
     serializer_class = TodoSerializaer
+    pagination_class = LimitOffsetPagination
+
 
 # endregion
 
 
-#refion users
+# region users
 class UserGenericApiView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
 
 # endregion
