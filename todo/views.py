@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework.request import Request
 from rest_framework.response import Response
 from .models import Todo
@@ -10,7 +10,7 @@ from rest_framework import generics, mixins
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
-# from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
